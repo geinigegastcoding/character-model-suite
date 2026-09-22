@@ -14,4 +14,9 @@ jobs:
           version: latest
       - run: uv run --extra dev pytest
       - run: uv run python scripts/validate_registry.py
-
+      - run: uv run python -m compileall -q scripts src modal_app.py
+      - run: uv run python scripts/train_qwen_image.py --config configs/stages/image_qwen_image.toml --dry-run
+      - run: uv run python scripts/train_wan.py --config configs/stages/video_wan21.toml --dry-run
+      - run: uv run python scripts/train_qwen_tts.py --config configs/stages/audio_qwen3_tts.toml --dry-run
+      - run: uv run python scripts/train_llm.py --config configs/stages/text_qwen3.toml --dry-run
+      - run: uv run python scripts/train_llm.py --config configs/stages/coding_qwen3.toml --dry-run
