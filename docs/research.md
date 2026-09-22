@@ -27,7 +27,7 @@ The first run should be an identity proof, not a “maximum quality” run: a cu
 
 ### Video
 
-Wan2.1 is architecturally separate from Qwen Image. Diffusers documents LoRA loading for Wan2.1, but a production training workflow still needs a confirmed trainer, frame sampling policy, and a motion/identity evaluation set. The repository therefore starts with the 1.3B checkpoint as a budget-conscious candidate and does not pretend the video stage is runnable yet.
+Wan2.1 is architecturally separate from Qwen Image. The repository now wires Hugging Face `finetrainers` for a single-GPU Wan2.1 1.3B LoRA run with precomputation and the documented caption-file dataset format. `finetrainers` is still a work in progress, so pin its commit before a production run and keep the motion/identity evaluation set separate from training.
 
 ### Audio
 
@@ -54,6 +54,8 @@ This is deliberately one Modal app with separate functions. It keeps startup com
 - [Diffusers Qwen Image DreamBooth-LoRA guide](https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/README_qwen.md)
 - [Diffusers Qwen Image training script](https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/train_dreambooth_lora_qwen_image.py)
 - [Diffusers Wan pipeline and LoRA notes](https://github.com/huggingface/diffusers/blob/main/docs/source/en/api/pipelines/wan.md)
+- [Hugging Face finetrainers Wan guide](https://github.com/huggingface/finetrainers/blob/main/docs/models/wan.md)
+- [Hugging Face finetrainers dataset format](https://github.com/huggingface/finetrainers/blob/main/docs/dataset/README.md)
 - [Qwen3-TTS fine-tuning instructions](https://github.com/QwenLM/Qwen3-TTS/blob/main/finetuning/README.md)
 - [Qwen3-Coder collection](https://huggingface.co/collections/Qwen/qwen3-coder)
 - [Hugging Face PEFT LoRA reference](https://huggingface.co/docs/peft/en/package_reference/lora)

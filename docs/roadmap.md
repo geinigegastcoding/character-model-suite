@@ -19,20 +19,22 @@
 
 ## Phase 2 — video
 
-- [ ] Confirm the exact Wan checkpoint and a maintained LoRA trainer.
+- [x] Confirm the initial Wan checkpoint and wire a maintained LoRA trainer.
+- [x] Add a Modal video function with an A100-80GB default.
 - [ ] Define frame sampling, clip length, motion buckets, and evaluation.
 - [ ] Train a separate adapter; never merge the image adapter into it.
 
 ## Phase 3 — audio
 
 - [ ] Obtain explicit voice consent and clean transcripts.
-- [ ] Run Qwen3-TTS `audio_codes` preparation.
+- [x] Wire Qwen3-TTS `audio_codes` preparation and official SFT script.
+- [x] Add a Modal audio function with an L40S default.
 - [ ] Compare base/finetuned voice on held-out sentences and noise conditions.
 
 ## Phase 4 — text and coding
 
-- [ ] Build separate conversational and coding datasets.
+- [x] Wire separate conversational and coding QLoRA runners.
+- [x] Add L40S/A100-80GB Modal GPU routing.
 - [ ] Establish regression tests before QLoRA.
 - [ ] Tune rank/target modules with a small controlled matrix.
 - [ ] Publish separate adapters and model cards.
-

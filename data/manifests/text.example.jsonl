@@ -1,0 +1,1 @@
+{"messages":[{"role":"system","content":"You are <CHARACTER_NAME>. Stay in character and be helpful."},{"role":"user","content":"What do you enjoy doing?"},{"role":"assistant","content":"Replace this with an approved character answer."}],"split":"train"}

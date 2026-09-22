@@ -23,6 +23,11 @@ uv venv
 uv pip install -e ".[dev]"
 uv run python scripts/validate_registry.py
 uv run pytest
+uv run python scripts/train_qwen_image.py --config configs/stages/image_qwen_image.toml --dry-run
+uv run python scripts/train_wan.py --config configs/stages/video_wan21.toml --dry-run
+uv run python scripts/train_qwen_tts.py --config configs/stages/audio_qwen3_tts.toml --dry-run
+uv run python scripts/train_llm.py --config configs/stages/text_qwen3.toml --dry-run
+uv run python scripts/train_llm.py --config configs/stages/coding_qwen3.toml --dry-run
 ```
 
 Copy `.env.example` to `.env` only for local, non-secret defaults. Put tokens in Modal Secrets for cloud jobs.
@@ -32,9 +37,10 @@ Copy `.env.example` to `.env` only for local, non-secret defaults. Put tokens in
 Modal profiles are the account switch; Modal environments are the project namespace. Use one profile per account and one environment per lifecycle stage:
 
 ```powershell
-modal token new --activate
+modal token new --profile character-account-a
+modal token new --profile character-account-b
 modal profile list
-modal profile activate <account-profile>
+modal profile activate character-account-a
 modal environment create dev
 modal config set-environment dev
 modal secret create character-model-suite-hf HF_TOKEN=hf_...
@@ -71,13 +77,34 @@ The example manifest intentionally points at files that are not committed. Repla
 # CPU-side configuration and volume check
 modal run --env=dev modal_app.py::smoke
 
-# First GPU trainer: Qwen Image DreamBooth-LoRA (A100-80GB by default)
+# Qwen Image DreamBooth-LoRA (A100-80GB)
 modal run --env=dev modal_app.py::train_image
+
+# Wan2.1 video LoRA through finetrainers (A100-80GB)
+modal run --env=dev modal_app.py::train_video
+
+# Qwen3-TTS single-speaker SFT (L40S)
+modal run --env=dev modal_app.py::train_audio
+
+# Qwen3 conversation QLoRA (L40S)
+modal run --env=dev modal_app.py::train_text
+
+# Qwen3-Coder QLoRA (L40S, A100-80GB fallback)
+modal run --env=dev modal_app.py::train_coding
 ```
 
-`train_image` follows the official Diffusers Qwen Image DreamBooth-LoRA example. It is deliberately the only runnable trainer in this first slice; video, audio, text, and coding have pinned research/config placeholders until their data contracts and hardware budgets are confirmed.
+Before a GPU run, upload only the data for that stage. Video uses a `.txt` file beside every clip; audio uses the JSONL contract in `docs/dataset-spec.md`; text and coding use JSONL rows with `messages`.
 
-GPU choice is explicit: use `A100-80GB` for the first Qwen Image training run, `L40S` for the cheaper 7–14B text/audio LoRA stages, and only switch to `H100` after a short benchmark shows that its shorter wall-clock time beats its higher hourly rate. The current price snapshot and reasoning are in [`docs/gpu-choice.md`](docs/gpu-choice.md).
+```powershell
+modal volume put character-model-suite-data data/raw/video /data/raw/video/
+modal volume put character-model-suite-data data/manifests/audio.train.jsonl /data/manifests/audio.train.jsonl
+modal volume put character-model-suite-data data/manifests/text.train.jsonl /data/manifests/text.train.jsonl
+modal volume put character-model-suite-data data/manifests/coding.train.jsonl /data/manifests/coding.train.jsonl
+```
+
+The four additional runners are now wired, but they intentionally stop with a clear error when the required private data is absent. The Wan trainer follows finetrainers' current work-in-progress interface; pin its repository revision before a production run.
+
+GPU choice is explicit: use `A100-80GB` for Qwen Image and Wan video, `L40S` for audio and Qwen3 text, and start coding on `L40S` with an `A100-80GB` fallback. Only switch to `H100` after a short benchmark shows that its shorter wall-clock time beats its higher hourly rate. The current price snapshot and reasoning are in [`docs/gpu-choice.md`](docs/gpu-choice.md).
 
 ## Publishing an adapter to Hugging Face
 
@@ -98,7 +125,7 @@ The script creates a public model repo only when explicitly run. Base-model weig
 configs/       model registry and per-stage training settings
 data/          local-only raw data and public manifest examples
 docs/          research, dataset contract, and roadmap
-scripts/       validation and Hugging Face publishing helpers
+scripts/       per-stage trainers, validation, and Hugging Face publishing helpers
 src/suite/     small stdlib validators
 modal_app.py   Modal image, Volume, Secret, and training entrypoints
 tests/         intent-focused checks for the validators

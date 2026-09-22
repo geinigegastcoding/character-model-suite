@@ -19,10 +19,22 @@ Raw data is private by default. Only manifests, metadata, and generated adapters
 
 Captions should describe what is visible. They should not rely on an opaque trigger token that carries no meaning in the base model. Include varied lighting, framing, clothing, background, and expressions; hold out genuinely different examples for validation.
 
+For Wan/finetrainers, the uploaded video directory uses one `.txt` caption beside each clip:
+
+```text
+/mnt/suite/data/raw/video/
+├── clip-001.mp4
+├── clip-001.txt
+├── clip-002.mp4
+└── clip-002.txt
+```
+
+The caption text files are the trainer's source of truth. The JSONL example remains useful for the suite-level audit, but finetrainers does not consume that JSONL directly for training.
+
 ## Audio
 
 ```json
-{"audio":"data/raw/audio/utt0001.wav","text":"Transcript with punctuation.","ref_audio":"data/raw/audio/ref.wav","split":"train"}
+{"audio":"/mnt/suite/data/raw/audio/utt0001.wav","text":"Transcript with punctuation.","ref_audio":"/mnt/suite/data/raw/audio/ref.wav"}
 ```
 
 Keep the transcript exact. Record sample rate, channels, clipping checks, noise policy, and speaker consent. The Qwen3-TTS preparation step adds `audio_codes` before training.
@@ -34,4 +46,3 @@ Keep the transcript exact. Record sample rate, channels, clipping checks, noise 
 ```
 
 Use realistic multi-turn examples and a held-out evaluation set. For coding, keep executable tests and repository context where licensing allows; evaluate both code correctness and the character's communication style.
-

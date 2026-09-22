@@ -1,6 +1,17 @@
 stage = "audio"
 model_id = "Qwen/Qwen3-TTS-12Hz-1.7B-Base"
-status = "planned"
+trainer_repo = "/opt/Qwen3-TTS"
+raw_jsonl = "/mnt/suite/data/manifests/audio.train.jsonl"
+prepared_jsonl = "/mnt/suite/data/processed/audio/train_with_codes.jsonl"
+output_dir = "/mnt/suite/adapters/audio/qwen3-tts"
+tokenizer_model_path = "Qwen/Qwen3-TTS-Tokenizer-12Hz"
+device = "cuda:0"
+batch_size = 2
+learning_rate = 0.00002
+num_epochs = 3
+speaker_name = "character"
+attn_implementation = "eager"
+gpu = "L40S"
+status = "ready-to-wire"
 manifest_fields = ["audio", "text", "ref_audio"]
-notes = "Official fine-tuning recipe is single-speaker and requires audio_codes preprocessing."
-
+notes = "Official recipe is single-speaker SFT, not a generic LoRA. The wrapper runs prepare_data.py before sft_12hz.py."

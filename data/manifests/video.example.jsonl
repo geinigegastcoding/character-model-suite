@@ -1,0 +1,2 @@
+{"file":"data/raw/video/clip-001.mp4","caption":"<CHARACTER_NAME> walks through a quiet studio and turns toward the camera","split":"train","subject_id":"character"}
+{"file":"data/raw/video/clip-002.mp4","caption":"<CHARACTER_NAME> looks over one shoulder in soft daylight","split":"validation","subject_id":"character"}

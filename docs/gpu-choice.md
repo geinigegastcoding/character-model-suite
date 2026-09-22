@@ -13,7 +13,6 @@ Price snapshot verified 2026-09-22 against the [Modal pricing page](https://moda
 
 Use `A100-80GB` for the first image trainer. The official Modal DreamBooth example labels fine-tuning VRAM-heavy and uses an A100-80GB; Qwen Image is a 20B model, so the 48 GiB L40S is a cost-saving gamble for this first run even though it is roughly 22% cheaper per hour.
 
-Use `L40S` for the planned text, coding, and audio experiments where QLoRA/LoRA and 48 GiB are a much better fit. Use H100 only when a benchmark proves that the saved runtime offsets the approximately 58% higher hourly cost compared with A100-80GB.
+Use `L40S` for the text and audio experiments, and as the first coding-QLoRA attempt. The coding model is a 30B-A3B MoE, so the Modal function declares `L40S` with an `A100-80GB` fallback; switch to the fallback on an actual out-of-memory error rather than paying for it pre-emptively. Use H100 only when a benchmark proves that the saved runtime offsets the approximately 58% higher hourly cost compared with A100-80GB.
 
 The first benchmark should be a fixed 50-step run with the same data, resolution, rank, and seed. Record wall-clock time and total GPU cost. Do not optimize hourly price while ignoring failed/OOM runs: a failed 48 GiB job is more expensive than a completed 80 GiB job.
-

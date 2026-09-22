@@ -14,5 +14,6 @@ lora_alpha = 16
 seed = 42
 validation_prompt = "a portrait photo of <CHARACTER_NAME> in a neutral studio"
 gradient_checkpointing = true
+use_8bit_adam = true
 offload = true
 cache_latents = true
