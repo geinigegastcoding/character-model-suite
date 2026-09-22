@@ -68,13 +68,13 @@ def main() -> int:
     args = parser.parse_args()
 
     config = load_config(args.config)
-    output_dir = Path(config["output_dir"])
-    output_dir.mkdir(parents=True, exist_ok=True)
     command = build_command(config, args.trainer)
     print(" ".join(command))
     if args.dry_run:
         return 0
 
+    output_dir = Path(config["output_dir"])
+    output_dir.mkdir(parents=True, exist_ok=True)
     subprocess.run(command, check=True)
     metadata = {
         "model_id": config["model_id"],
@@ -89,4 +89,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
