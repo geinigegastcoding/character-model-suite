@@ -1,0 +1,20 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.env
+.modal/
+.hf/
+
+# Training data, checkpoints, and generated media stay out of Git.
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+adapters/*
+runs/*
+
+# Keep directory markers only.
+!adapters/README.md
+!runs/README.md

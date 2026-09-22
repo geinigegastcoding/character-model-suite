@@ -1,0 +1,5 @@
+stage = "video"
+model_id = "Wan-AI/Wan2.1-T2V-1.3B-Diffusers"
+status = "planned"
+notes = "Keep video identity/style adapter separate from image adapter; confirm trainer support before spending GPU time."
+

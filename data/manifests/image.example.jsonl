@@ -1,0 +1,3 @@
+{"file":"data/raw/image/001.jpg","caption":"a front-facing portrait photo of <CHARACTER_NAME> in natural window light","split":"train","subject_id":"character"}
+{"file":"data/raw/image/002.jpg","caption":"a three-quarter portrait photo of <CHARACTER_NAME> outdoors","split":"validation","subject_id":"character"}
+

@@ -1,0 +1,9 @@
+stage = "coding"
+model_id = "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+status = "planned"
+method = "qlora"
+lora_rank = 16
+lora_alpha = 32
+target_modules = "all-linear"
+max_seq_length = 8192
+

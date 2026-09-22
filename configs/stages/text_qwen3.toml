@@ -1,0 +1,9 @@
+stage = "text"
+model_id = "Qwen/Qwen3-8B"
+status = "planned"
+method = "qlora"
+lora_rank = 16
+lora_alpha = 32
+target_modules = "all-linear"
+max_seq_length = 4096
+

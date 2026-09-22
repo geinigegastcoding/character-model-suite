@@ -1,0 +1,61 @@
+[project]
+name = "character-model-suite"
+owner = "geinigegastcoding"
+license = "MIT"
+
+[modal]
+app_name = "character-model-suite"
+volume_name = "character-model-suite-data"
+hf_secret_name = "character-model-suite-hf"
+wandb_secret_name = "character-model-suite-wandb"
+default_environment = "dev"
+default_gpu = "A100-80GB"
+
+[[models]]
+stage = "image"
+role = "generation"
+model_id = "Qwen/Qwen-Image"
+trainer = "diffusers/examples/dreambooth/train_dreambooth_lora_qwen_image.py"
+status = "ready-to-wire"
+notes = "20B MMDiT image generation/editing foundation model; use the image stage config."
+
+[[models]]
+stage = "vision"
+role = "understanding"
+model_id = "Qwen/Qwen3-VL-8B-Instruct"
+trainer = "qwen-vl-finetune"
+status = "planned"
+notes = "Optional captioning/evaluation adapter; not a text-to-image generator."
+
+[[models]]
+stage = "video"
+role = "generation"
+model_id = "Wan-AI/Wan2.1-T2V-1.3B-Diffusers"
+trainer = "diffusers-or-musubi-tuner"
+status = "planned"
+notes = "Start with 1.3B for iteration; move to a larger Wan checkpoint only after data validation."
+
+[[models]]
+stage = "audio"
+role = "speech"
+model_id = "Qwen/Qwen3-TTS-12Hz-1.7B-Base"
+trainer = "Qwen3-TTS/finetuning"
+status = "planned"
+notes = "Official recipe currently describes single-speaker fine-tuning; do not assume generic LoRA support."
+
+[[models]]
+stage = "text"
+role = "conversation"
+model_id = "Qwen/Qwen3-8B"
+trainer = "transformers-peft-or-llama-factory"
+status = "planned"
+notes = "Use SFT with QLoRA only after a clean conversational dataset and held-out evaluation set exist."
+
+[[models]]
+stage = "coding"
+role = "code-generation"
+model_id = "Qwen/Qwen3-Coder-30B-A3B-Instruct"
+trainer = "transformers-peft-or-llama-factory"
+status = "planned"
+notes = "Separate coding adapter; the model is much larger than the requested 7B class."
+

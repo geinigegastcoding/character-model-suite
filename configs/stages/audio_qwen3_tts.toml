@@ -1,0 +1,6 @@
+stage = "audio"
+model_id = "Qwen/Qwen3-TTS-12Hz-1.7B-Base"
+status = "planned"
+manifest_fields = ["audio", "text", "ref_audio"]
+notes = "Official fine-tuning recipe is single-speaker and requires audio_codes preprocessing."
+
